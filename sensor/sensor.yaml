@@ -1,0 +1,15 @@
+- platform: onewire
+  names:
+    28-0416642b62ff: Attic
+
+- platform: mqtt
+  name: "Bedroom"
+  state_topic: "bedroom/temperature"
+  qos: 0
+  unit_of_measurement: "°C"
+  
+- platform: yr
+  monitored_conditions:
+    - temperature
+    - cloudiness
+    - symbol

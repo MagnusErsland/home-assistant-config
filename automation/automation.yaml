@@ -1,0 +1,103 @@
+- alias: 'Roller blinds down'
+  trigger:
+    - platform: sun
+      event: sunset
+      offset: '00:45:00'
+
+  action:
+    - service: cover.close_cover
+      entity_id: cover.bedroom_roller_blinds
+
+
+
+- alias: 'Roller blinds up when pc turns on'
+  trigger:
+    - platform: state
+      entity_id: switch.magnuspc
+      state: 'on'
+
+  condition:
+    - condition: state
+      entity_id: sun.sun
+      state: 'above_horizon'
+
+    - condition: numeric_state
+      entity_id: 'sensor.yr_cloudiness'
+      below: '60'
+
+  action:
+    - service: cover.open_cover
+      entity_id: cover.bedroom_roller_blinds
+    - delay: '0:00:20'
+    - service: cover.stop_cover
+      entity_id: cover.bedroom_roller_blinds
+
+- alias: 'Heat on'
+  trigger:
+    - platform: state
+      entity_id: switch.magnuspc
+      state: 'on'
+
+  action:
+    - service: climate.set_temperature
+      data:
+        entity_id: climate.bedroom
+        temperature: 23
+        operation_mode: Heat
+
+- alias: 'Heat off'
+  trigger:
+    - platform: state
+      entity_id: switch.magnuspc
+      state: 'off'
+
+  action:
+    - service: climate.set_temperature
+      data:
+        entity_id: climate.bedroom
+        temperature: 17
+        operation_mode: Heat
+
+- alias: 'Light on when pc turns on'
+  initial_state: true
+  trigger:
+    - platform: state
+      entity_id: switch.magnuspc
+      state: 'on'
+  action:
+    - service: homeassistant.turn_on
+      entity_id:
+        - light.light_bedroom
+      data:
+        brightness: 20
+    - service: switch.turn_on
+      entity_id: switch.fluxer
+
+- alias: 'Lights off when pc turns off at night'
+  initial_state: true
+  trigger:
+    - platform: state
+      entity_id: switch.magnuspc
+      state: 'off'
+
+  condition:
+    - condition: time
+      after: '22:00:00'
+      before: '06:00:00'
+
+  action:
+    - service: homeassistant.turn_off
+      entity_id:
+        - light.light_bedroom
+    - service: switch.turn_off
+      entity_id: switch.fluxer
+    - service: homeassistant.turn_on
+      entity_id:
+        - light.rgb_bedroom
+      data:
+        brightness: 127
+        rgb_color:  [255, 0, 0]
+    - delay: 0:01
+    - service: homeassistant.turn_off
+      entity_id:
+        - light.rgb_bedroom

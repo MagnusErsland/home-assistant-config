@@ -1,0 +1,34 @@
+- platform: wake_on_lan
+  mac_address: "11:22:33:44:55:66"
+  name: "MagnusPC"
+  host: "192.168.1.48"
+  
+- platform: mqtt
+  name: "Sonoff 1"
+  state_topic: "stat/sonoff1/POWER"
+  command_topic: "cmnd/sonoff1/power"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: true
+  
+- platform: mqtt
+  name: "Sonoff 2"
+  state_topic: "stat/sonoff2/POWER"
+  command_topic: "cmnd/sonoff2/power"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: true
+  
+- platform: flux
+  lights:
+    - light.light_bedroom
+  name: Fluxer
+  # start_time: '7:00'
+  # stop_time: '23:00'
+  start_colortemp: 5000
+  sunset_colortemp: 4000
+  stop_colortemp: 1000
+  # brightness: 200
+  mode: mired

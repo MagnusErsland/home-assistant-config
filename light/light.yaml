@@ -1,0 +1,23 @@
+- platform: mqtt
+  name: "RGB Bedroom"
+  state_topic: "soverom/rgb1/light/status"
+  command_topic: "soverom/rgb1/light/switch"
+  brightness_state_topic: "soverom/rgb1/brightness/status"
+  brightness_command_topic: "soverom/rgb1/brightness/set"
+  rgb_state_topic: "soverom/rgb1/rgb/status"
+  rgb_command_topic: "soverom/rgb1/rgb/set"
+  brightness_scale: 1023
+  qos: 0
+  payload_on: "ON"
+  payload_off: "OFF"
+  optimistic: false
+  
+- platform: mqtt
+  name: "Light Bedroom"
+  state_topic: 'soverom/light'
+  command_topic: 'soverom/light/switch'
+  brightness_state_topic: 'soverom/light/brightness'
+  brightness_command_topic: 'soverom/light/brightness/set'
+  color_temp_state_topic: 'soverom/light/colortemp'
+  color_temp_command_topic: 'soverom/light/colortemp/set'
+  brightness_scale: 1023
