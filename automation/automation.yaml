@@ -2,7 +2,7 @@
   trigger:
     - platform: sun
       event: sunset
-      offset: '00:45:00'
+      offset: '00:15:00'
 
   action:
     - service: cover.close_cover
@@ -24,6 +24,10 @@
     - condition: numeric_state
       entity_id: 'sensor.yr_cloudiness'
       below: '60'
+
+    - condition: state
+      entity_id: switch.magnuspc
+      state: 'off'
 
   action:
     - service: cover.open_cover
