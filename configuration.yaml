@@ -28,6 +28,9 @@ discovery:
 # Allows you to issue voice commands from the frontend in enabled browsers
 conversation:
 
+config:
+
+group:
 # Enables support for tracking state changes over time.
 history: !include_dir_merge_list history
 
