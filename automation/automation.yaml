@@ -46,7 +46,7 @@
     - service: climate.set_temperature
       data:
         entity_id: climate.bedroom
-        temperature: 23
+        temperature: 22
         operation_mode: Heat
 
 - alias: 'Heat off'
@@ -63,7 +63,7 @@
         operation_mode: Heat
 
 - alias: 'Light on when pc turns on'
-  initial_state: true
+  initial_state: false
   trigger:
     - platform: state
       entity_id: switch.magnuspc
