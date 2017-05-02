@@ -1,6 +1,6 @@
 # Files
 *.conf
-*.db
+*.db*
 *.db-journal
 *.log
 *.noload
@@ -13,6 +13,9 @@ google_calendars.yaml
 secrets.yaml
 .google.token
 device_tracker/
+.spotify-token-cache
+emulated_hue_ids.json
+
 
 # Directories
 icloud

@@ -7,9 +7,21 @@
   state_topic: "bedroom/temperature"
   qos: 0
   unit_of_measurement: "°C"
-  
+
 - platform: yr
   monitored_conditions:
     - temperature
     - cloudiness
     - symbol
+
+- platform: fastdotcom
+  hour: 4
+  #manual: true
+
+- platform: systemmonitor
+  resources:
+  - type: disk_use_percent
+    arg: /home
+  - type: memory_free
+  - type: load_5m
+  - type: since_last_boot

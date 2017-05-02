@@ -1,0 +1,60 @@
+bedroom:
+  name: Bedroom
+  view: yes
+  entities:
+    - group.bedroom_light
+    - climate.bedroom
+    - cover.bedroom_roller_blinds
+    - scene.day
+    - scene.flux
+    - scene.night
+    - scene.red
+    - scene.warm_night
+    - sensor.bedroom
+    - switch.sonoff_1
+    - switch.sonoff_2
+
+bedroom_light:
+  name: Bedroom Light
+  view: no
+  entities:
+    - light.light_bedroom
+    - light.rgb_bedroom
+
+livingroom:
+  view: yes
+  name: Livingroom
+  entities:
+    - media_player.apple_tv
+    - media_player.chromecast_audio
+
+people:
+  name: People
+  view: no
+  entities:
+    - device_tracker.ymwwmsre_android
+
+automations:
+  view: yes
+  name: Automations
+  entities:
+    - group.all_automations
+
+system:
+  name: System
+  view: no
+  entities:
+    - sensor.average_load_5m
+    - sensor.disk_use_home
+    - sensor.fastcom_download
+    - sensor.ram_free
+    - sensor.since_last_boot
+
+Weather:
+  control: hidden
+  entities:
+    - sun.sun
+    - sensor.yr_symbol
+    - sensor.yr_temperature
+    - sensor.yr_cloudiness
+    - sensor.bedroom

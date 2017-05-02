@@ -1,9 +1,0 @@
-exclude:
-  domains:
-    - sun
-    - weblink
-    - automation
-    - switch
-  entities:
-    - sensor.yr_symbol
-    - media_player.chromecast_audio

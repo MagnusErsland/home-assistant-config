@@ -2,8 +2,8 @@ homeassistant:
   # Name of the location where Home Assistant is running
   name: Home
   # Location required to calculate the time the sun rises and sets
-  latitude: !secret latitude 
-  longitude: !secret longitude 
+  latitude: !secret latitude
+  longitude: !secret longitude
   # Impacts weather/sunrise data (altitude above sea level in meters)
   elevation: !secret elevation
   # metric for Metric, imperial for Imperial
@@ -11,39 +11,28 @@ homeassistant:
   # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
   time_zone: Europe/Oslo
 
-# Enables the frontend
-frontend:
-
 http:
-  api_password: !secret api_password 
+  api_password: !secret api_password
+  base_url: !secret base_url
   ip_ban_enabled: True
   login_attempts_threshold: 3
 
-# Checks for available updates
+frontend:
 updater:
-
-# Discover some devices automatically
 discovery:
-
-# Allows you to issue voice commands from the frontend in enabled browsers
 conversation:
-
 config:
 
-group:
-# Enables support for tracking state changes over time.
-history: !include_dir_merge_list history
+group: !include group.yaml
 
-# View all events in a logbook
-logbook: !include_dir_merge_list logbook
-
-# Track the sun
 sun:
+  elevation: !secret elevation
 
-# Weather Prediction
-sensor: !include_dir_merge_list sensor
+sensor: !include sensor.yaml
 
 mqtt:
+  discovery: true
+  discovery_prefix: homeassistant
   broker: !secret mqtt_broker
   port: !secret mqtt_port
   client_id: !secret mqtt_client_id
@@ -52,15 +41,21 @@ mqtt:
 
 websocket_api:
 
-# device_tracker: !include_dir_merge_list device_tracker
+device_tracker:
+  - platform: owntracks
+    max_gps_accuracy: 200
+    waypoints: True
 
-light: !include_dir_merge_list light
+light: !include light.yaml
 
-cover: !include_dir_merge_list cover
+cover: !include cover.yaml
 
-switch: !include_dir_merge_list switch
+switch: !include switch.yaml
 
 automation: !include_dir_merge_list automation
+
+#emulated_hue:
+#  host_ip: 192.168.1.32
 
 climate:
   - platform: generic_thermostat
@@ -74,52 +69,13 @@ climate:
     min_cycle_duration:
       minutes: 2
 
+device_sun_light_trigger:
+  light_group: group.bedroom_light
+
 binary_sensor:
   - platform: aurora
 
-scene:
-  - name: Night
-    entities:
-      switch.fluxer: off
-      light.light_bedroom: off
-      light.rgb_bedroom: off
-      climate.bedroom:
-        temperature: 17
-  - name: Flux
-    entities:
-      light.light_bedroom: on
-      switch.fluxer: on
-      light.rgb_bedroom: off
-      climate.bedroom:
-        temperature: 23
-  - name: Red
-    entities:
-      light.light_bedroom: off
-      switch.fluxer: off
-      light.rgb_bedroom:
-        brightness: 127
-        rgb_color:  [255, 0, 0]
-        state: on
-  - name: Day
-    entities:
-      light.light_bedroom:
-        state: on
-        brightness: 255
-        color_temp: 280
-      switch.fluxer: off
-      light.rgb_bedroom: off
-      climate.bedroom:
-        temperature: 23
-  - name: Warm night
-    entities:
-      light.light_bedroom:
-        brightness: 64
-        color_temp: 500
-        state: on
-      switch.fluxer: off
-      light.rgb_bedroom: off
-      climate.bedroom:
-        temperature: 23
+scene: !include scene.yaml
 
 ifttt:
   key: !secret ifttt_key
@@ -131,5 +87,25 @@ notify:
 tts:
   - platform: google
 
+media_player:
+- platform: spotify
+  client_id: !secret spotify_client_id
+  client_secret: !secret spotify_client_secret
+
+logbook:
+
+history:
+
 recorder:
   purge_days: 2
+  exclude:
+    entities:
+      - sensor.disk_use_home
+      - sensor.ram_free
+      - sensor.average_load_5m
+      - sensor.since_last_boot
+      - sensor.yr_cloudiness
+      - sensor.yr_symbol
+    domains:
+      - automation
+      - media_player
