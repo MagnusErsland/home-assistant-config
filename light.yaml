@@ -1,20 +1,20 @@
 - platform: mqtt
   name: "Light Bedroom"
-  state_topic: 'soverom/light2'
+  state_topic: 'soverom/light'
   command_topic: 'soverom/light/switch'
-  brightness_state_topic: 'soverom/light/brightness2'
+  brightness_state_topic: 'soverom/light/brightness'
   brightness_command_topic: 'soverom/light/brightness/set'
-  color_temp_state_topic: 'soverom/light/colortemp2'
+  color_temp_state_topic: 'soverom/light/colortemp'
   color_temp_command_topic: 'soverom/light/colortemp/set'
   brightness_scale: 1023
 
 - platform: mqtt
   name: "RGB Bedroom"
-  state_topic: "soverom/rgb1/light/status2"
+  state_topic: "soverom/rgb1/light/status"
   command_topic: "soverom/rgb1/light/switch"
-  brightness_state_topic: "soverom/rgb1/brightness/status2"
+  brightness_state_topic: "soverom/rgb1/brightness/status"
   brightness_command_topic: "soverom/rgb1/brightness/set"
-  rgb_state_topic: "soverom/rgb1/rgb/status2"
+  rgb_state_topic: "soverom/rgb1/rgb/status"
   rgb_command_topic: "soverom/rgb1/rgb/set"
   effect_state_topic: "soverom/rgb1/effect/status"
   effect_command_topic: "soverom/rgb1/effect/set"
@@ -26,3 +26,12 @@
   payload_on: "ON"
   payload_off: "OFF"
   optimistic: false
+
+- platform: mqtt
+  name: "Sonoff 2"
+  state_topic: "stat/sonoff2/POWER"
+  command_topic: "cmnd/sonoff2/power"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: true

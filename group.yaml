@@ -3,22 +3,21 @@ bedroom:
   view: yes
   entities:
     - group.bedroom_light
-    - climate.bedroom
+    - group.bedroom_climate
     - cover.bedroom_roller_blinds
     - scene.day
     - scene.flux
     - scene.night
     - scene.red
     - scene.warm_night
-    - sensor.bedroom
     - switch.sonoff_1
-    - switch.sonoff_2
 
 bedroom_light:
   name: Bedroom Light
   view: no
   entities:
     - light.light_bedroom
+    - light.sonoff_2
     - light.rgb_bedroom
 
 livingroom:
@@ -34,11 +33,6 @@ people:
   entities:
     - device_tracker.ymwwmsre_android
 
-automations:
-  view: yes
-  name: Automations
-  entities:
-    - group.all_automations
 
 system:
   name: System
@@ -51,10 +45,15 @@ system:
     - sensor.since_last_boot
 
 Weather:
-  control: hidden
   entities:
     - sun.sun
     - sensor.yr_symbol
     - sensor.yr_temperature
     - sensor.yr_cloudiness
+    - binary_sensor.aurora_visibility
+
+Bedroom_climate:
+  name: Bedroom Climate
+  entities:
+    - climate.bedroom
     - sensor.bedroom

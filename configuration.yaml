@@ -69,6 +69,16 @@ climate:
     min_cycle_duration:
       minutes: 2
 
+input_slider:
+  target_bedroom_temperature:
+      name: Target bedroom temperature
+      initial: 22
+      min: 15
+      max: 25
+      step: 1
+      unit_of_measurement: step  
+
+
 device_sun_light_trigger:
   light_group: group.bedroom_light
 
@@ -109,3 +119,7 @@ recorder:
     domains:
       - automation
       - media_player
+      - group
+      - scene
+      - zone
+      - automation

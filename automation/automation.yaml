@@ -46,7 +46,7 @@
     - service: climate.set_temperature
       data:
         entity_id: climate.bedroom
-        temperature: 22
+        temperature: '{{ states.input_slider.target_bedroom_temperature.state | int }}' 
         operation_mode: Heat
 
 - alias: 'Heat off'
@@ -105,3 +105,27 @@
     - service: homeassistant.turn_off
       entity_id:
         - light.rgb_bedroom
+
+
+- alias: 'Bedroom temperature above 30 C'
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.bedroom
+      above: '27'
+  action:
+    - service: notify.notify 
+      data:
+        target: "device/LGE Nexus 5X"
+        message: "Bedroom temperature above 27 C"
+
+
+- alias: 'Temp slider moved'
+  trigger:
+    - platform: state
+      entity_id: input_slider.target_temp
+  action:
+    - service: climate.target_bedroom_temperature
+      data:
+        entity_id: climate.bedroom
+        temperature: '{{ states.input_slider.target_bedroom_temperature.state | int }}' 
+        operation_mode: Heat

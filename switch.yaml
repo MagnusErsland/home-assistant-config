@@ -2,7 +2,7 @@
   mac_address: "11:22:33:44:55:66"
   name: "MagnusPC"
   host: "192.168.1.48"
-  
+
 - platform: mqtt
   name: "Sonoff 1"
   state_topic: "stat/sonoff1/POWER"
@@ -11,16 +11,16 @@
   payload_on: "ON"
   payload_off: "OFF"
   retain: true
-  
-- platform: mqtt
-  name: "Sonoff 2"
-  state_topic: "stat/sonoff2/POWER"
-  command_topic: "cmnd/sonoff2/power"
-  qos: 1
-  payload_on: "ON"
-  payload_off: "OFF"
-  retain: true
-  
+
+# - platform: mqtt
+#   name: "Sonoff 2"
+#   state_topic: "stat/sonoff2/POWER"
+#   command_topic: "cmnd/sonoff2/power"
+#   qos: 1
+#   payload_on: "ON"
+#   payload_off: "OFF"
+#   retain: true
+
 - platform: flux
   lights:
     - light.light_bedroom
