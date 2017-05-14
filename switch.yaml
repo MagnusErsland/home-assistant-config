@@ -1,7 +1,8 @@
 - platform: wake_on_lan
   mac_address: "11:22:33:44:55:66"
   name: "MagnusPC"
-  host: "192.168.1.48"
+  host: "192.168.1.4"
+  icon: mdi:windows
 
 - platform: mqtt
   name: "Sonoff 1"
@@ -21,12 +22,37 @@
 #   payload_off: "OFF"
 #   retain: true
 
+
+- platform: rpi_rf
+  gpio: 17
+  switches:
+    CoTech_A:
+      code_on: 8484464,9347248,8752944,9225024
+      code_off: 8567456,8913184,9399568,8887440
+      pulselength: 350
+      protocol: 4
+      signal_repetitions: 1
+    CoTech_B:
+      code_on: 8484468,9225028,8752948,9347252
+      code_off: 8887444,9399572,8388900,8567460
+      pulselength: 350
+      protocol: 4
+      signal_repetitions: 1
+    CoTech_C:
+      code_on: 9225036,8752956,8484476,9347260
+      code_off: 8913196,9399580,8887452,8567468
+      pulselength: 350
+      protocol: 4
+      signal_repetitions: 1
+
 - platform: flux
   lights:
     - light.light_bedroom
   name: Fluxer
+  start_time: '8:00'
+  stop_time: '22:00'
   start_colortemp: 5000
   sunset_colortemp: 3000
-  stop_colortemp: 1000
+  stop_colortemp: 1900
   # brightness: 200
   mode: mired

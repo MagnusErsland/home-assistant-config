@@ -1,17 +1,12 @@
 - name: Night
   entities:
-    switch.fluxer: off
     light.light_bedroom: off
     light.rgb_bedroom: off
-    climate.bedroom:
-      temperature: 17
 - name: Flux
   entities:
     light.light_bedroom: on
     switch.fluxer: on
     light.rgb_bedroom: off
-    climate.bedroom:
-      temperature: 23
 - name: Red
   entities:
     light.light_bedroom: off
@@ -28,8 +23,6 @@
       color_temp: 280
     switch.fluxer: off
     light.rgb_bedroom: off
-    climate.bedroom:
-      temperature: 23
 - name: Warm night
   entities:
     light.light_bedroom:
@@ -38,5 +31,3 @@
       state: on
     switch.fluxer: off
     light.rgb_bedroom: off
-    climate.bedroom:
-      temperature: 23

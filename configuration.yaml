@@ -64,23 +64,37 @@ climate:
     target_sensor: sensor.bedroom
     min_temp: 10
     max_temp: 25
-    target_temp: 17
+    target_temp: 0
     tolerance: 0.3
     min_cycle_duration:
       minutes: 2
 
 input_slider:
-  target_bedroom_temperature:
-      name: Target bedroom temperature
+  target_day_bedroom_temperature:
+      name: Day temperature
       initial: 22
       min: 15
       max: 25
       step: 1
-      unit_of_measurement: step  
+      icon: mdi:target
+
+  target_night_bedroom_temperature:
+      name: Night temperature
+      initial: 17
+      min: 15
+      max: 25
+      step: 1
+      icon: mdi:target
+
+input_boolean:
+  heater_on:
+    name: Heater on
+    initial: off
 
 
 device_sun_light_trigger:
-  light_group: group.bedroom_light
+  light_group: group.pressence_trigger
+  device_group: group.people
 
 binary_sensor:
   - platform: aurora

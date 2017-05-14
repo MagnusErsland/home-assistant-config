@@ -41,12 +41,15 @@
     - platform: state
       entity_id: switch.magnuspc
       state: 'on'
-
+  condition:
+    - condition: state
+      entity_id: input_boolean.heater_on
+      state: 'on'
   action:
     - service: climate.set_temperature
-      data:
+      data_template:
         entity_id: climate.bedroom
-        temperature: '{{ states.input_slider.target_bedroom_temperature.state | int }}' 
+        temperature: '{{ states.input_slider.target_day_bedroom_temperature.state }}' 
         operation_mode: Heat
 
 - alias: 'Heat off'
@@ -54,12 +57,15 @@
     - platform: state
       entity_id: switch.magnuspc
       state: 'off'
-
+  condition:
+    - condition: state
+      entity_id: input_boolean.heater_on
+      state: 'on'
   action:
     - service: climate.set_temperature
-      data:
+      data_template:
         entity_id: climate.bedroom
-        temperature: 17
+        temperature: '{{ states.input_slider.target_night_bedroom_temperature.state }}' 
         operation_mode: Heat
 
 - alias: 'Light on when pc turns on'
@@ -122,10 +128,26 @@
 - alias: 'Temp slider moved'
   trigger:
     - platform: state
-      entity_id: input_slider.target_temp
+      entity_id: input_slider.target_day_bedroom_temperature
+  condition:
+    - condition: state
+      entity_id: input_boolean.heater_on
+      state: 'on'
   action:
-    - service: climate.target_bedroom_temperature
-      data:
+    - service: climate.set_temperature
+      data_template:
         entity_id: climate.bedroom
-        temperature: '{{ states.input_slider.target_bedroom_temperature.state | int }}' 
+        temperature: '{{ states.input_slider.target_day_bedroom_temperature.state }}' 
+        operation_mode: Heat
+
+- alias: 'Turned heater off'
+  trigger:
+    - platform: state
+      entity_id: input_boolean.heater_on
+      to: 'off'
+  action:
+    - service: climate.set_temperature
+      data_template:
+        entity_id: climate.bedroom
+        temperature: '0' 
         operation_mode: Heat

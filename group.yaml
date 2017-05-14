@@ -10,7 +10,6 @@ bedroom:
     - scene.night
     - scene.red
     - scene.warm_night
-    - switch.sonoff_1
 
 bedroom_light:
   name: Bedroom Light
@@ -19,6 +18,10 @@ bedroom_light:
     - light.light_bedroom
     - light.sonoff_2
     - light.rgb_bedroom
+
+pressence_trigger:
+  entities:
+    - light.light_bedroom
 
 livingroom:
   view: yes
@@ -57,3 +60,7 @@ Bedroom_climate:
   entities:
     - climate.bedroom
     - sensor.bedroom
+    - input_boolean.heater_on
+    - input_slider.target_day_bedroom_temperature
+    - input_slider.target_night_bedroom_temperature
+    - switch.sonoff_1
