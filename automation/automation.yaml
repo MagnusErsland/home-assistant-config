@@ -3,6 +3,8 @@
     - platform: sun
       event: sunset
       offset: '00:15:00'
+    - platform: time
+      at: '22:00:00'
 
   action:
     - service: cover.close_cover
@@ -113,11 +115,12 @@
         - light.rgb_bedroom
 
 
-- alias: 'Bedroom temperature above 30 C'
+- alias: 'Bedroom temperature above 27 C'
   trigger:
     - platform: numeric_state
       entity_id: sensor.bedroom
       above: '27'
+        
   action:
     - service: notify.notify 
       data:
@@ -151,3 +154,20 @@
         entity_id: climate.bedroom
         temperature: '0' 
         operation_mode: Heat
+
+- alias: 'Manual flux'
+  initial_state: false
+  trigger:
+    - platform: time
+      at: '22:00:00'
+  condition:
+    - condition: state
+      entity_id: light.light_bedroom
+      state: 'on'      
+  action:
+    - service: homeassistant.turn_on
+      entity_id:
+        - light.light_bedroom
+      data:
+        brightness: 30
+        color_temp: 500
