@@ -169,5 +169,5 @@
       entity_id:
         - light.light_bedroom
       data:
-        brightness: 30
+        brightness: 128
         color_temp: 500
