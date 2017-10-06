@@ -1,6 +1,7 @@
 - platform: mqtt
   state_topic: "bedroom/rollers"
   command_topic: "bedroom/rollers/set"
+  set_position_topic: "bedroom/rollers/position"
   name: "Bedroom Roller blinds"
   qos: 0
   retain: true

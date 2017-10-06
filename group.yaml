@@ -22,6 +22,7 @@ bedroom_light:
 pressence_trigger:
   entities:
     - light.light_bedroom
+    - switch.magnuspc
 
 livingroom:
   view: yes
@@ -34,7 +35,7 @@ people:
   name: People
   view: no
   entities:
-    - device_tracker.ymwwmsre_android
+    - device_tracker.0218fe5d62ca36f0
 
 
 system:

@@ -19,7 +19,7 @@ http:
 
 frontend:
 updater:
-discovery:
+#discovery:
 conversation:
 config:
 
@@ -42,9 +42,7 @@ mqtt:
 websocket_api:
 
 device_tracker:
-  - platform: owntracks
-    max_gps_accuracy: 200
-    waypoints: True
+  - platform: gpslogger
 
 light: !include light.yaml
 
@@ -92,12 +90,13 @@ input_boolean:
     initial: off
 
 
-device_sun_light_trigger:
-  light_group: group.pressence_trigger
-  device_group: group.people
+#device_sun_light_trigger:
+#  light_group: group.pressence_trigger
+#  device_group: group.people
+#  light_profile: reading
 
-binary_sensor:
-  - platform: aurora
+#binary_sensor:
+#  - platform: aurora
 
 scene: !include scene.yaml
 
@@ -137,3 +136,9 @@ recorder:
       - scene
       - zone
       - automation
+
+shell_command:
+  shutdown_pc: 'curl -k http://192.168.1.5:8000/?action=System.Shutdown'
+  restart_pc: 'curl -k http://192.168.1.5:8000/?action=System.Restart'
+  sleep_pc: 'curl -k http://192.168.1.5:8000/?action=System.Sleep'
+  hibernate_pc: 'curl -k http://192.168.1.5:8000/?action=System.Hibernate'

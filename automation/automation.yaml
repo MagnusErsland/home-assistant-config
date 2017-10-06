@@ -1,4 +1,5 @@
 - alias: 'Roller blinds down'
+  initial_state: false
   trigger:
     - platform: sun
       event: sunset
@@ -13,10 +14,11 @@
 
 
 - alias: 'Roller blinds up when pc turns on'
+  initial_state: false
   trigger:
     - platform: state
       entity_id: switch.magnuspc
-      state: 'on'
+      to: 'on'
 
   condition:
     - condition: state
@@ -42,7 +44,7 @@
   trigger:
     - platform: state
       entity_id: switch.magnuspc
-      state: 'on'
+      to: 'on'
   condition:
     - condition: state
       entity_id: input_boolean.heater_on
@@ -58,7 +60,7 @@
   trigger:
     - platform: state
       entity_id: switch.magnuspc
-      state: 'off'
+      to: 'off'
   condition:
     - condition: state
       entity_id: input_boolean.heater_on
@@ -71,17 +73,15 @@
         operation_mode: Heat
 
 - alias: 'Light on when pc turns on'
-  initial_state: false
+  initial_state: true
   trigger:
     - platform: state
       entity_id: switch.magnuspc
-      state: 'on'
+      to: 'on'
   action:
     - service: homeassistant.turn_on
       entity_id:
         - light.light_bedroom
-      data:
-        brightness: 20
     - service: switch.turn_on
       entity_id: switch.fluxer
 
@@ -90,7 +90,7 @@
   trigger:
     - platform: state
       entity_id: switch.magnuspc
-      state: 'off'
+      to: 'off'
 
   condition:
     - condition: time
@@ -171,3 +171,33 @@
       data:
         brightness: 128
         color_temp: 500
+        
+- alias: 'Leave Home'
+  initial_state: true
+  trigger:
+    platform: state
+    entity_id: group.all_devices
+    from: 'home'
+    to: 'not_home'
+    for:
+      minutes: 5
+  action:
+    - service: homeassistant.turn_off
+      entity_id:
+        - light.light_bedroom
+        - switch.magnuspc
+        
+- alias: 'Arrive home'
+  initial_state: true
+  trigger:
+    platform: state
+    entity_id: group.all_devices
+    from: 'not_home'
+    to: 'home'
+  action:
+    - service: homeassistant.turn_on
+      entity_id:
+        - light.light_bedroom
+        - switch.magnuspc
+    - service: switch.turn_on
+      entity_id: switch.fluxer
