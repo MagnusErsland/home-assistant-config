@@ -14,6 +14,8 @@ homeassistant:
 http:
   api_password: !secret api_password
   base_url: !secret base_url
+  ssl_certificate: /ssl/fullchain.pem
+  ssl_key: /ssl/privkey.pem
   ip_ban_enabled: True
   login_attempts_threshold: 3
 
@@ -22,6 +24,7 @@ updater:
 #discovery:
 conversation:
 config:
+hassio:
 
 group: !include group.yaml
 
@@ -67,22 +70,23 @@ climate:
     min_cycle_duration:
       minutes: 2
 
-input_slider:
-  target_day_bedroom_temperature:
-      name: Day temperature
-      initial: 22
-      min: 15
-      max: 25
-      step: 1
-      icon: mdi:target
+#input_slider:
+#  target_day_bedroom_temperature:
+#      name: Day temperature
+#      initial: 22
+#      min: 15
+#      min: 15
+#      max: 25
+#      step: 1
+#      icon: mdi:target
 
-  target_night_bedroom_temperature:
-      name: Night temperature
-      initial: 17
-      min: 15
-      max: 25
-      step: 1
-      icon: mdi:target
+#  target_night_bedroom_temperature:
+#      name: Night temperature
+#      initial: 17
+#      min: 15
+#      max: 25
+#      step: 1
+#      icon: mdi:target
 
 input_boolean:
   heater_on:
@@ -114,13 +118,19 @@ media_player:
 - platform: spotify
   client_id: !secret spotify_client_id
   client_secret: !secret spotify_client_secret
+- platform: webostv
+  host: 192.168.1.8
+- platform: bluesound
+  hosts:
+    - host: 192.168.1.40
 
 logbook:
 
 history:
 
 recorder:
-  purge_days: 2
+  purge_interval: 2
+  purge_keep_days: 5
   exclude:
     entities:
       - sensor.disk_use_home
