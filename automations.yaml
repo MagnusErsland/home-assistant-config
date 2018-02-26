@@ -1,0 +1,204 @@
+- action:
+  - data:
+      entity_id: light.light_bedroom
+    service: light.turn_on
+  - alias: ''
+    data:
+      entity_id: switch.magnuspc
+    service: switch.turn_on
+  - data:
+      away_mode: false
+      entity_id: climate.bedroom
+    service: climate.set_away_mode
+  alias: Arive home
+  condition: []
+  id: '1517711486514'
+  trigger:
+  - entity_id: device_tracker.0218fe5d62ca36f0
+    event: enter
+    platform: zone
+    zone: zone.home
+- action:
+  - data:
+      entity_id: light.light_bedroom
+    service: light.turn_off
+  - data:
+      away_mode: true
+      entity_id: climate.bedroom
+    service: climate.set_away_mode
+  - data:
+      entity_id: light.rgb_bedroom
+      rgb_color:
+      - 255
+      - 0
+      - 0
+    service: light.turn_on
+  - delay: 0:01
+  - data:
+      entity_id: light.rgb_bedroom
+    service: light.turn_off
+  alias: Bed time
+  condition:
+  - after: '22:00:00'
+    before: 07:00:00
+    condition: time
+  id: '1517716770916'
+  trigger:
+  - entity_id: switch.magnuspc
+    from: 'on'
+    platform: state
+    to: 'off'
+- action:
+  - data:
+      away_mode: false
+      entity_id: climate.bedroom
+    service: climate.set_away_mode
+  - data:
+      entity_id: light.light_bedroom
+    service: light.turn_on
+  - data:
+      entity_id: switch.fluxer
+    service: switch.turn_on
+  alias: Morning
+  condition: []
+  id: '1517783451727'
+  trigger:
+  - entity_id: switch.magnuspc
+    from: 'off'
+    platform: state
+    to: 'on'
+- action:
+  - data:
+      entity_id: scene.warm_night
+    service: scene.turn_on
+  alias: Night
+  condition:
+  - condition: state
+    entity_id: light.light_bedroom
+    state: 'on'
+  id: '1517783619935'
+  trigger:
+  - at: '22:00:00'
+    platform: time
+- action:
+  - data:
+      away_mode: true
+      entity_id: climate.bedroom
+    service: climate.set_away_mode
+  - data:
+      entity_id: light.light_bedroom
+    service: light.turn_off
+  - data:
+      entity_id: light.rgb_bedroom
+    service: light.turn_off
+  - data:
+      entity_id: light.sonoff_2
+    service: light.turn_off
+  - data:
+      entity_id: switch.magnuspc
+    service: switch.turn_off
+  alias: Leave home
+  condition: []
+  id: '1517784219390'
+  trigger:
+  - entity_id: device_tracker.0218fe5d62ca36f0
+    event: leave
+    platform: zone
+    zone: zone.home
+- action:
+  - alias: ''
+    data:
+      entity_id: switch.magnuspc
+    service: switch.turn_on
+  alias: Wake up after 7.5h
+  condition:
+  - condition: zone
+    entity_id: device_tracker.0218fe5d62ca36f0
+    zone: zone.home
+  - after: 09:00
+    before: '14:00'
+    condition: time
+  id: '1518654458012'
+  trigger:
+  - entity_id: switch.magnuspc
+    for:
+      hours: 8
+      minutes: 15
+    from: 'on'
+    platform: state
+    to: 'off'
+- action:
+  - data:
+      entity_id: media_player.bedroom
+      message: Go to bed
+    service: tts.google_say
+  - alias: ''
+    data:
+      entity_id: light.light_bedroom
+    service: light.turn_off
+  - data:
+      entity_id: light.rgb_bedroom
+      rgb_color:
+      - 0
+      - 0
+      - 255
+    service: light.turn_on
+  - delay: '1'
+  - data:
+      entity_id: scene.warm_night
+    service: scene.turn_on
+  alias: Go to bed
+  condition:
+  - condition: zone
+    entity_id: device_tracker.0218fe5d62ca36f0
+    zone: zone.home
+  - condition: state
+    entity_id: switch.magnuspc
+    state: 'on'
+  id: '1518656657866'
+  trigger:
+  - at: 01:00
+    platform: time
+- action:
+  - data:
+      message: Go home!
+      target:
+      - device/Nexus 5X
+    service: notify.notify
+  alias: UiB go home
+  condition:
+  - after: '12:00'
+    before: '23:00'
+    condition: time
+  id: '1518657374420'
+  trigger:
+  - entity_id: device_tracker.0218fe5d62ca36f0
+    for:
+      hours: 7
+    from: Away
+    platform: state
+    to: UiB
+- action:
+  - data:
+      message: Get food!
+      target:
+      - device/Nexus 5X
+    service: notify.notify
+  alias: Get food
+  condition:
+  - after: 09:00
+    before: '19:00'
+    condition: time
+  id: '1518657768718'
+  trigger:
+  - entity_id: device_tracker.0218fe5d62ca36f0
+    for:
+      hours: 3
+    from: Away
+    platform: state
+    to: UiB
+- action: []
+  alias: New Automation
+  condition: []
+  id: '1518730998634'
+  trigger: []

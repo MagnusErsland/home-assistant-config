@@ -14,35 +14,117 @@ homeassistant:
 http:
   api_password: !secret api_password
   base_url: !secret base_url
-  ssl_certificate: /ssl/fullchain.pem
-  ssl_key: /ssl/privkey.pem
+  use_x_forwarded_for: True
+  # ssl_certificate: /ssl/fullchain.pem
+  # ssl_key: /ssl/privkey.pem
   ip_ban_enabled: True
   login_attempts_threshold: 3
+  
+logger:
+  default: fatal
 
 frontend:
+  themes:
+    darkblue:
+      primary-color: "#396FB6"
+      light-primary-color: "#77a0d4"
+      dark-primary-color: "#3539ce"
+      text-primary-color: "#ffffff"
+      primary-background-color: "#37464f"
+      sidebar-text_-_background: "#3c4348"
+      paper-card-background-color: "#263137"
+      paper-card-header-color: "var(--text-primary-color)"
+      secondary-background-color: "var(--primary-background-color)"
+      primary-text-color: "var(--text-primary-color)"
+      secondary-text-color: "var(--primary-color)"
+      paper-listbox-background-color: "var(--sidebar-text_-_background)"
+      paper-toggle-button-checked-ink-color: "var(--dark-primary-color)"
+      paper-toggle-button-checked-button-color: "var(--dark-primary-color)"
+      paper-toggle-button-checked-bar-color: "var(--dark-primary-color)"
+      paper-slider-knob-color: "var(--primary-color)"
+      paper-slider-knob-start-color: "var(--primary-color)"
+      paper-slider-pin-color: "var(--primary-color)"
+      paper-slider-active-color: "var(--primary-color)"
+      paper-slider-secondary-color: "var(--light-primary-color)"
+      paper-slider-container-color: "var(--sidebar-text_-_background)"
+      paper-progress-secondary-color: "var(--sidebar-text_-_background)"
+      paper-item-selected_-_background-color: "var(--primary-color)"
+      paper-item-icon_-_color: "var(--text-primary-color)"
+      paper-item-icon-color: "var(--text-primary-color)"
+      paper-item-icon-active-color: "var(--primary-color)"
+      paper-grey-50: "var(--sidebar-text_-_background)"
+      paper-grey-200: "var(--primary-background-color)"
+      label-badge-background-color: "var(--sidebar-text_-_background)"
+      label-badge-text-color: "var(--text-primary-color)"
+      label-badge-red: "var(--primary-color)"
+      label-badge-blue: "var(--light-primary-color)"
+      label-badge-green: "var(--dark-primary-color)"
+      label-badge-yellow: "var(--text-primary-color)"
+      label-badge-grey: "var(--paper-grey-500)"
+      table-row-background-color: "var(--paper-card-background-color)"
+      table-row-alternative-background-color: "var(--sidebar-text_-_background)"
+
 updater:
-#discovery:
+# discovery:
 conversation:
 config:
-hassio:
+  customize: !include customize.yaml
+recorder:
+  purge_interval: 2
+  purge_keep_days: 5
+  db_url: sqlite:////home/homeassistant/.homeassistant/usbdrive/home-assistant_v2.db
+  exclude:
+    entities:
+      - sensor.load_5m
+      - sensor.since_last_boot
+      - sensor.yr_cloudiness
+      - sensor.yr_symbol
+      - sensor.yr_temperature
+      - sensor.fastcom_download
+      - sensor.sonoff1_rssi
+      - sensor.sonoff1_telemetry_state
+      - sensor.sonoff1_time
+      - sensor.sonoff1_uptime
+      - sensor.sonoff2_rssi
+      - sensor.sonoff2_telemetry_state
+      - sensor.sonoff2_time
+      - sensor.sonoff2_uptime
+    domains:
+      - automation
+      - media_player
+      - group
+      - scene
+      - zone
+      - automation
 
+      
+history:
+
+panel_iframe:
+  terminal:
+    title: 'Terminal'
+    icon: mdi:console
+    url: 'http://192.168.1.32:4200'
+  
+  
 group: !include group.yaml
 
 sun:
-  elevation: !secret elevation
+map:
+
 
 sensor: !include sensor.yaml
 
 mqtt:
-  discovery: true
-  discovery_prefix: homeassistant
   broker: !secret mqtt_broker
   port: !secret mqtt_port
   client_id: !secret mqtt_client_id
   username: !secret mqtt_username
   password: !secret mqtt_password
 
+  
 websocket_api:
+
 
 device_tracker:
   - platform: gpslogger
@@ -53,59 +135,29 @@ cover: !include cover.yaml
 
 switch: !include switch.yaml
 
-automation: !include_dir_merge_list automation
-
-#emulated_hue:
-#  host_ip: 192.168.1.32
+# automation: !include_dir_merge_list automation
+automation: !include automations.yaml
+script: !include scripts.yaml
 
 climate:
   - platform: generic_thermostat
     name: Bedroom
     heater: switch.sonoff_1
-    target_sensor: sensor.bedroom
+    target_sensor: sensor.28031664daffff_temperature
     min_temp: 10
     max_temp: 25
-    target_temp: 0
+    target_temp: 21
     tolerance: 0.3
     min_cycle_duration:
       minutes: 2
+    initial_operation_mode: "off"
+    away_temp: 18
 
-#input_slider:
-#  target_day_bedroom_temperature:
-#      name: Day temperature
-#      initial: 22
-#      min: 15
-#      min: 15
-#      max: 25
-#      step: 1
-#      icon: mdi:target
-
-#  target_night_bedroom_temperature:
-#      name: Night temperature
-#      initial: 17
-#      min: 15
-#      max: 25
-#      step: 1
-#      icon: mdi:target
-
-input_boolean:
-  heater_on:
-    name: Heater on
-    initial: off
-
-
-#device_sun_light_trigger:
-#  light_group: group.pressence_trigger
-#  device_group: group.people
-#  light_profile: reading
-
-#binary_sensor:
-#  - platform: aurora
 
 scene: !include scene.yaml
 
-ifttt:
-  key: !secret ifttt_key
+# ifttt:
+  # key: !secret ifttt_key
 
 notify:
   - platform: pushbullet
@@ -113,42 +165,49 @@ notify:
 
 tts:
   - platform: google
+    language : en
 
 media_player:
-- platform: spotify
-  client_id: !secret spotify_client_id
-  client_secret: !secret spotify_client_secret
+# - platform: spotify
+  # client_id: !secret spotify_client_id
+  # client_secret: !secret spotify_client_secret
 - platform: webostv
-  host: 192.168.1.8
+  host: 192.168.1.7
+- platform: cast
+  host: 192.168.1.11
 - platform: bluesound
   hosts:
-    - host: 192.168.1.40
+    # - host: 192.168.1.40
+    - host: 192.168.1.16
+    - host: 192.168.1.18
 
-logbook:
+#logbook:
 
-history:
-
-recorder:
-  purge_interval: 2
-  purge_keep_days: 5
-  exclude:
-    entities:
-      - sensor.disk_use_home
-      - sensor.ram_free
-      - sensor.average_load_5m
-      - sensor.since_last_boot
-      - sensor.yr_cloudiness
-      - sensor.yr_symbol
-    domains:
-      - automation
-      - media_player
-      - group
-      - scene
-      - zone
-      - automation
 
 shell_command:
   shutdown_pc: 'curl -k http://192.168.1.5:8000/?action=System.Shutdown'
   restart_pc: 'curl -k http://192.168.1.5:8000/?action=System.Restart'
   sleep_pc: 'curl -k http://192.168.1.5:8000/?action=System.Sleep'
   hibernate_pc: 'curl -k http://192.168.1.5:8000/?action=System.Hibernate'
+
+  
+# octoprint:
+  # host: 192.168.1.4
+  # api_key: !secret octokey
+  # bed: true
+  # number_of_tools: 2
+  
+# camera:
+  # - platform: mjpeg
+    # name: Octoprint
+    # mjpeg_url: http://192.168.1.4/webcam/?action=stream
+
+zone:
+  - name: Home
+    latitude: !secret latitude
+    longitude: !secret longitude
+    radius: 100
+  - name: UiB
+    latitude: !secret uib_latitude
+    longitude: !secret uib_longitude
+    radius: 50

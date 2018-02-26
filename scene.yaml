@@ -26,7 +26,7 @@
 - name: Warm night
   entities:
     light.light_bedroom:
-      brightness: 64
+      brightness: 24
       color_temp: 500
       state: on
     switch.fluxer: off

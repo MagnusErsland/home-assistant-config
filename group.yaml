@@ -4,12 +4,13 @@ bedroom:
   entities:
     - group.bedroom_light
     - group.bedroom_climate
-    - cover.bedroom_roller_blinds
+    - group.bedroom_switch
     - scene.day
     - scene.flux
     - scene.night
     - scene.red
     - scene.warm_night
+    - media_player.bedroom
 
 bedroom_light:
   name: Bedroom Light
@@ -19,34 +20,53 @@ bedroom_light:
     - light.sonoff_2
     - light.rgb_bedroom
 
-pressence_trigger:
+bedroom_switch:
+  name: Bedroom switch
   entities:
-    - light.light_bedroom
     - switch.magnuspc
+    - cover.bedroom_roller_blinds
+    - switch.fluxer
 
 livingroom:
   view: yes
   name: Livingroom
   entities:
-    - media_player.apple_tv
-    - media_player.chromecast_audio
+    - media_player.lg_webos_smart_tv
+    - media_player.stue_lesekrok
+    - media_player.stue_tv__forsterker
+    - media_player.kjoekken
 
 people:
   name: People
   view: no
   entities:
     - device_tracker.0218fe5d62ca36f0
+    - sensor.battery_5x
+    - sensor.activity_5x
+    - sensor.speed_5x
 
 
 system:
   name: System
   view: no
   entities:
-    - sensor.average_load_5m
-    - sensor.disk_use_home
+    - sensor.load_5m
     - sensor.fastcom_download
-    - sensor.ram_free
     - sensor.since_last_boot
+    - updater.updater
+    
+Sonoff_debug:
+  name: Sonoff debug
+  view: no
+  entities:
+    - sensor.sonoff1_rssi
+    - sensor.sonoff1_time
+    - sensor.sonoff1_uptime
+    - sensor.sonoff1_telemetry_state
+    - sensor.sonoff2_rssi
+    - sensor.sonoff2_time
+    - sensor.sonoff2_uptime
+    - sensor.sonoff2_telemetry_state
 
 Weather:
   entities:
@@ -54,14 +74,19 @@ Weather:
     - sensor.yr_symbol
     - sensor.yr_temperature
     - sensor.yr_cloudiness
-    - binary_sensor.aurora_visibility
+    # - binary_sensor.aurora_visibility
 
 Bedroom_climate:
   name: Bedroom Climate
   entities:
     - climate.bedroom
-    - sensor.bedroom
-    - input_boolean.heater_on
-    - input_slider.target_day_bedroom_temperature
-    - input_slider.target_night_bedroom_temperature
+    - sensor.28031664daffff_temperature
+    - sensor.dht_sensor_temperature
+    - sensor.dht_sensor_humidity
     - switch.sonoff_1
+    
+# Octoprint:
+  # name: OctoPrint
+  # entities:
+    # - camera.octoprint
+    # - sensor.printer_status
